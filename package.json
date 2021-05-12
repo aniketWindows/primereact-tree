@@ -1,10 +1,10 @@
 {
-  "name": "primereact-tree",
+  "name": "primereact-tree-saama",
   "version": "1.0.0",
-  "homepage": ".",
+  "homepage": "https://github.com/aniketWindows/primereact-tree-saama",
   "repository": {
     "type": "git",
-    "url": "https://github.com/primefaces/primereact.git"
+    "url": "https://github.com/aniketWindows/primereact-tree-saama"
   },
   "license": "MIT",
   "keywords": [
