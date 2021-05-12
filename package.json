@@ -1,10 +1,10 @@
 {
   "name": "primereact-tree-saama",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "homepage": "https://github.com/aniketWindows/primereact-tree-saama",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aniketWindows/primereact-tree-saama"
+    "url": "git+https://github.com/aniketWindows/primereact-tree-saama.git"
   },
   "license": "MIT",
   "keywords": [
@@ -74,5 +74,11 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm version](https://badge.fury.io/js/primereact.svg)](https://badge.fury.io/js/primereact) [![Discord Chat](https://img.shields.io/discord/557940238991753223.svg?color=7289da&label=chat&logo=discord)](https://discord.gg/gzKFYnpmCY)",
+  "bugs": {
+    "url": "https://github.com/aniketWindows/primereact-tree-saama/issues"
+  },
+  "main": "gulpfile.js",
+  "author": ""
 }
