@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TreeNode from '../treenode/TreeNode';
 
-declare module 'primereact/treeselect' {
+declare namespace TreeSelect {
 
     type SelectionModeType = 'single' | 'multiple' | 'checkbox';
 
@@ -16,8 +16,6 @@ declare module 'primereact/treeselect' {
     type PanelHeaderTemplateType = React.ReactNode | ((options: PanelHeaderTemplateOptions) => React.ReactNode);
 
     type PanelFooterTemplateType = React.ReactNode | ((props: TreeSelectProps) => React.ReactNode);
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
 
     interface PanelHeaderTemplateOptions {
         className: string;
@@ -53,7 +51,7 @@ declare module 'primereact/treeselect' {
         node: TreeNode;
     }
 
-    export interface TreeSelectProps {
+    interface TreeSelectProps {
         id?: string;
         value?: SelectionKeys;
         name?: string;
@@ -70,7 +68,7 @@ declare module 'primereact/treeselect' {
         selectionMode?: SelectionModeType;
         panelStyle?: object;
         panelClassName?: string;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         emptyMessage?: string;
         display?: DisplayType;
         metaKeySelection?: boolean;
@@ -93,6 +91,6 @@ declare module 'primereact/treeselect' {
         onNodeExpand?(e: EventNodeParams): void;
         onNodeCollapse?(e: EventNodeParams): void;
     }
-
-    export class TreeSelect extends React.Component<TreeSelectProps, any> { }
 }
+
+export declare class TreeSelect extends React.Component<TreeSelect.TreeSelectProps, any> { }

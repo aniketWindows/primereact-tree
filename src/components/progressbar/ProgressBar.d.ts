@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-declare module 'primereact/progressbar' {
+declare namespace ProgressBar {
 
     type ModeType = 'determinate' | 'indeterminate';
 
     type ValueType = string | number | undefined | null;
 
-    export interface ProgressBarProps {
+    interface ProgressBarProps {
         id?: string;
         value?: ValueType;
         showValue?: boolean;
@@ -17,6 +17,6 @@ declare module 'primereact/progressbar' {
         color?: string;
         displayValueTemplate?(value: ValueType): React.ReactNode;
     }
-
-    export class ProgressBar extends React.Component<ProgressBarProps, any> { }
 }
+
+export declare class ProgressBar extends React.Component<ProgressBar.ProgressBarProps, any> { }

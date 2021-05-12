@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-declare module 'primereact/knob' {
+declare namespace Knob {
 
     interface ChangeParams {
         value: number;
     }
 
-    export interface KnobProps {
+    interface KnobProps {
         id?: string;
         style?: object;
         className?: string;
@@ -26,6 +26,6 @@ declare module 'primereact/knob' {
         valueTemplate?: string;
         onChange?(e: ChangeParams): void;
     }
-
-    export class Knob extends React.Component<KnobProps, any> { }
 }
+
+export declare class Knob extends React.Component<Knob.KnobProps, any> { }

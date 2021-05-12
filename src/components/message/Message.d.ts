@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-declare module 'primereact/message' {
+declare namespace Message {
 
     type SeverityType = 'success' | 'info' | 'warn' | 'error' | (string & {});
 
     type ContentType = React.ReactNode | ((props: MessageProps) => React.ReactNode);
 
-    export interface MessageProps {
+    interface MessageProps {
         id?: string;
         className?: string;
         style?: object;
@@ -14,6 +14,6 @@ declare module 'primereact/message' {
         severity?: SeverityType;
         content?: ContentType;
     }
-
-    export class Message extends React.Component<MessageProps, any> { }
 }
+
+export declare class Message extends React.Component<Message.MessageProps, any> { }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/picklist' {
+declare namespace PickList {
 
     interface EventParams {
         originalEvent: React.SyntheticEvent;
@@ -13,7 +13,7 @@ declare module 'primereact/picklist' {
         target: any;
     }
 
-    export interface PickListProps {
+    interface PickListProps {
         id?: string;
         source?: any[];
         target?: any[];
@@ -38,6 +38,6 @@ declare module 'primereact/picklist' {
         onSourceSelectionChange?(e: EventParams): void;
         onTargetSelectionChange?(e: EventParams): void;
     }
-
-    export class PickList extends React.Component<PickListProps, any> { }
 }
+
+export declare class PickList extends React.Component<PickList.PickListProps, any> { }

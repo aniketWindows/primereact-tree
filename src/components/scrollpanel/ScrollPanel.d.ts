@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-declare module 'primereact/scrollpanel' {
+declare namespace ScrollPanel {
 
-    export interface ScrollPanelProps {
+    interface ScrollPanelProps {
         id?: string;
         style?: object;
         className?: string;
     }
-
-    export class ScrollPanel extends React.Component<ScrollPanelProps, any> { }
 }
+
+export declare class ScrollPanel extends React.Component<ScrollPanel.ScrollPanelProps, any> { }

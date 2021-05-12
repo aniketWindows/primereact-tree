@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/inputnumber' {
+declare namespace InputNumber {
 
     interface ValueChangeTargetOptions {
         name: string;
@@ -22,7 +22,7 @@ declare module 'primereact/inputnumber' {
         value: number;
     }
 
-    export interface InputNumberProps {
+    interface InputNumberProps {
         value?: number;
         inputRef?: React.Ref<HTMLInputElement>;
         format?: boolean;
@@ -71,6 +71,6 @@ declare module 'primereact/inputnumber' {
         onBlur?(event: React.FormEvent<HTMLInputElement>): void;
         onKeyDown?(event: React.KeyboardEvent<HTMLInputElement>): void;
     }
-
-    export class InputNumber extends React.Component<InputNumberProps, any> { }
 }
+
+export declare class InputNumber extends React.Component<InputNumber.InputNumberProps, any> { }

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { MenuItem } from '../menuitem/MenuItem';
 
-declare module 'primereact/tabmenu' {
+declare namespace TabMenu {
 
     interface TabChangeParams {
         originalEvent: React.SyntheticEvent;
         value: MenuItem;
     }
 
-    export interface TabMenuProps {
+    interface TabMenuProps {
         id?: string;
         model?: MenuItem[];
         activeItem?: MenuItem;
@@ -16,6 +16,6 @@ declare module 'primereact/tabmenu' {
         className?: string;
         onTabChange?(e: TabChangeParams): void;
     }
-
-    export class TabMenu extends React.Component<TabMenuProps, any> { }
 }
+
+export declare class TabMenu extends React.Component<TabMenu.TabMenuProps, any> { }

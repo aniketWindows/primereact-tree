@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/panel' {
+declare namespace Panel {
 
     type HeaderTemplateType = React.ReactNode | ((options: HeaderTemplateOptions) => React.ReactNode);
 
@@ -26,7 +26,7 @@ declare module 'primereact/panel' {
         value: boolean;
     }
 
-    export interface PanelProps {
+    interface PanelProps {
         id?: string;
         header?: React.ReactNode;
         headerTemplate?: HeaderTemplateType;
@@ -42,6 +42,6 @@ declare module 'primereact/panel' {
         onCollapse?(event: React.SyntheticEvent): void;
         onToggle?(e: ToggleParams): void;
     }
-
-    export class Panel extends React.Component<PanelProps, any> { }
 }
+
+export declare class Panel extends React.Component<Panel.PanelProps, any> { }

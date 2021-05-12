@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-declare module 'primereact/orderlist' {
+declare namespace OrderList {
 
     interface ChangeParams {
         originalEvent: React.SyntheticEvent;
         value: any;
     }
 
-    export interface OrderListProps {
+    interface OrderListProps {
         id?: string;
         value?: any[];
         header?: React.ReactNode;
@@ -19,6 +19,6 @@ declare module 'primereact/orderlist' {
         onChange?(e: ChangeParams): void;
         itemTemplate?(item: any): React.ReactNode;
     }
-
-    export class OrderList extends React.Component<OrderListProps, any> { }
 }
+
+export declare class OrderList extends React.Component<OrderList.OrderListProps, any> { }

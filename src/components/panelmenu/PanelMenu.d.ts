@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { MenuItem } from '../menuitem/MenuItem';
 
-declare module 'primereact/panelmenu' {
+declare namespace PanelMenu {
 
-    export interface PanelMenuProps {
+    interface PanelMenuProps {
         id?: string;
         model?: MenuItem[];
         style?: object;
@@ -11,6 +11,6 @@ declare module 'primereact/panelmenu' {
         multiple?: boolean;
         transitionOptions?: object;
     }
-
-    export class PanelMenu extends React.Component<PanelMenuProps, any> { }
 }
+
+export declare class PanelMenu extends React.Component<PanelMenu.PanelMenuProps, any> { }

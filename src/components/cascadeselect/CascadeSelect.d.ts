@@ -1,10 +1,8 @@
 import * as React from 'react';
 
-declare module 'primereact/cascadeselect' {
+declare namespace CascadeSelect {
 
     type ItemTemplateType = React.ReactNode | ((option: any) => React.ReactNode);
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
 
     interface ChangeParams {
         originalEvent: React.SyntheticEvent;
@@ -13,7 +11,7 @@ declare module 'primereact/cascadeselect' {
 
     interface GroupChangeParams extends ChangeParams { }
 
-    export interface CascadeSelectProps {
+    interface CascadeSelectProps {
         id?: string;
         inputRef?: React.Ref<HTMLInputElement>;
         style?: object;
@@ -32,7 +30,7 @@ declare module 'primereact/cascadeselect' {
         inputId?: string;
         tabIndex?: number;
         ariaLabelledBy?: string;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         transitionOptions?: object;
         onChange?(e: ChangeParams): void;
         onGroupChange?(e: GroupChangeParams): void;
@@ -41,6 +39,6 @@ declare module 'primereact/cascadeselect' {
         onShow?(): void;
         onHide?(): void;
     }
-
-    export class CascadeSelect extends React.Component<CascadeSelectProps, any> { }
 }
+
+export declare class CascadeSelect extends React.Component<CascadeSelect.CascadeSelectProps, any> { }

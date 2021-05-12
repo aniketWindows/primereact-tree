@@ -1,13 +1,11 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/listbox' {
+declare namespace ListBox {
 
     type OptionGroupTemplateType = React.ReactNode | ((option: any, index: number) => React.ReactNode);
 
     type ItemTemplateType = React.ReactNode | ((option: any) => React.ReactNode);
-
-    type OptionDisabledType = string | ((option: any) => boolean);
 
     interface ChangeTargetOptions {
         name: string;
@@ -28,13 +26,13 @@ declare module 'primereact/listbox' {
         value: any;
     }
 
-    export interface ListBoxProps {
+    interface ListBoxProps {
         id?: string;
         value?: any;
         options?: any[];
         optionLabel?: string;
         optionValue?: string;
-        optionDisabled?: OptionDisabledType;
+        optionDisabled?: string;
         optionGroupLabel?: string;
         optionGroupChildren?: string;
         optionGroupTemplate?: OptionGroupTemplateType;
@@ -60,6 +58,6 @@ declare module 'primereact/listbox' {
         onChange?(e: ChangeParams): void;
         onFilterValueChange?(e: FilterValueChangeParams): void;
     }
-
-    export class ListBox extends React.Component<ListBoxProps, any> { }
 }
+
+export declare class ListBox extends React.Component<ListBox.ListBoxProps, any> { }

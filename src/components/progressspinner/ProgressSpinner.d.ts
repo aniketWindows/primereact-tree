@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-declare module 'primereact/progressspinner' {
+declare namespace ProgressSpinner {
 
-    export interface ProgressSpinnerProps {
+    interface ProgressSpinnerProps {
         id?: string;
         style?: object;
         className?: string;
@@ -10,6 +10,6 @@ declare module 'primereact/progressspinner' {
         fill?: string;
         animationDuration?: string
     }
-
-    export class ProgressSpinner extends React.Component<ProgressSpinnerProps, any> { }
 }
+
+export declare class ProgressSpinner extends React.Component<ProgressSpinner.ProgressSpinnerProps, any> { }

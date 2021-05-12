@@ -1,9 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/calendar' {
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
+declare namespace Calendar {
 
     interface ChangeTargetOptions {
         name: string;
@@ -38,7 +36,7 @@ declare module 'primereact/calendar' {
         selectable: boolean;
     }
 
-    export interface CalendarProps {
+    interface CalendarProps {
         id?: string;
         inputRef?: React.Ref<HTMLInputElement>;
         name?: string;
@@ -95,7 +93,7 @@ declare module 'primereact/calendar' {
         clearButtonClassName?: string;
         autoZIndex?: boolean;
         baseZIndex?: number;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         tooltip?: string;
         tooltipOptions?: TooltipOptions;
         ariaLabelledBy?: string;
@@ -114,6 +112,6 @@ declare module 'primereact/calendar' {
         onShow?(): void;
         onHide?(): void;
     }
-
-    export class Calendar extends React.Component<CalendarProps, any> { }
 }
+
+export declare class Calendar extends React.Component<Calendar.CalendarProps, any> { }

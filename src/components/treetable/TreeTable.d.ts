@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ColumnProps } from 'primereact/column';
-import { PaginatorTemplate } from 'primereact/paginator';
+import { Column } from '../column/Column';
+import { Paginator } from '../paginator/Paginator';
 import TreeNode from '../treenode/TreeNode';
 
-declare module 'primereact/treetable' {
+declare namespace TreeTable {
 
     type PaginatorPositionType = 'top' | 'bottom' | 'both';
 
@@ -24,8 +24,6 @@ declare module 'primereact/treetable' {
     type SelectionKeys = string | SelectionKeysType | undefined | null;
 
     type FilterModeType = 'lenient' | 'strict';
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
 
     interface SelectionKeysType {
         [key: string]: boolean;
@@ -77,7 +75,7 @@ declare module 'primereact/treetable' {
 
     interface ColumnResizeEndParams {
         element: HTMLElement;
-        column: ColumnProps;
+        column: Column.ColumnProps;
         delta: number;
     }
 
@@ -88,7 +86,7 @@ declare module 'primereact/treetable' {
         columns: React.ReactElement;
     }
 
-    export interface TreeTableProps {
+    interface TreeTableProps {
         id?: string;
         value?: TreeNode[];
         header?: React.ReactNode;
@@ -102,11 +100,11 @@ declare module 'primereact/treetable' {
         paginatorPosition?: PaginatorPositionType;
         alwaysShowPaginator?: boolean;
         paginatorClassName?: string;
-        paginatorTemplate?: PaginatorTemplate;
+        paginatorTemplate?: Paginator.PaginatorTemplate;
         paginatorLeft?: React.ReactNode;
         paginatorRight?: React.ReactNode;
         pageLinkSize?: number;
-        paginatorDropdownAppendTo?: AppendToType;
+        paginatorDropdownAppendTo?: HTMLElement | string;
         rowsPerPageOptions?: number[];
         currentPageReportTemplate?: string;
         first?: number;
@@ -162,8 +160,8 @@ declare module 'primereact/treetable' {
         onColReorder?(e: ColReorderParams): void;
         onContextMenu?(e: EventParams): void;
     }
+}
 
-    export class TreeTable extends React.Component<TreeTableProps, any> {
-        public filter<T>(value: T, field: string, mode: FilterMatchModeType): void;
-    }
+export declare class TreeTable extends React.Component<TreeTable.TreeTableProps, any> {
+    public filter<T>(value: T, field: string, mode: TreeTable.FilterMatchModeType): void;
 }

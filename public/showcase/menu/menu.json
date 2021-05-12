@@ -10,8 +10,7 @@
                     "name": "Get Started",
                     "to": "/setup",
                     "meta": [
-                        "get started",
-                        "browser support"
+                        "get started"
                     ],
                     "badge": "updated"
                 },
@@ -631,8 +630,7 @@
                             "meta": [
                                 "export",
                                 "import"
-                            ],
-                            "badge": "updated"
+                            ]
                         },
                         {
                             "name": "ContextMenu",

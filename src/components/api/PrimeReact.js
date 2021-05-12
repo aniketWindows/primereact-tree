@@ -1,29 +1,15 @@
-"use strict";
+export default class PrimeReact {
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+    static ripple = false;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+    static locale = 'en';
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+    static zIndex = {
+        modal: 1100,
+        overlay: 1000,
+        menu: 1000,
+        tooltip: 1100
+    }
 
-var PrimeReact = function PrimeReact() {
-  _classCallCheck(this, PrimeReact);
-};
-
-exports.default = PrimeReact;
-
-_defineProperty(PrimeReact, "ripple", false);
-
-_defineProperty(PrimeReact, "locale", 'en');
-
-_defineProperty(PrimeReact, "zIndex", {
-  modal: 1100,
-  overlay: 1000,
-  menu: 1000,
-  tooltip: 1100
-});
-
-_defineProperty(PrimeReact, "appendTo", null);
+    static appendTo = null;
+}

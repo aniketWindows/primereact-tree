@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ColumnProps } from 'primereact/column';
-import { PaginatorTemplate } from 'primereact/paginator';
+import { Column } from '../column/Column';
+import { Paginator } from '../paginator/Paginator';
 
-declare module 'primereact/datatable' {
+declare namespace DataTable {
 
     type PaginatorPositionType = 'top' | 'bottom' | 'both';
 
@@ -26,8 +26,6 @@ declare module 'primereact/datatable' {
 
     type StateStorageType = 'session' | 'local' | 'custom';
 
-    type AppendToType = 'self' | HTMLElement | undefined | null;
-
     interface SortMeta {
         field: string;
         order: SortOrderType;
@@ -50,6 +48,15 @@ declare module 'primereact/datatable' {
         [key: string]: boolean;
     }
 
+    interface ShowElementParams {
+        data: any;
+    }
+
+    interface EventParams {
+        originalEvent: React.SyntheticEvent;
+        value: any;
+    }
+
     interface PageParams {
         first: number;
         rows: number;
@@ -61,7 +68,7 @@ declare module 'primereact/datatable' {
 
     interface ColumnResizeEndParams {
         element: HTMLElement;
-        column: ColumnProps;
+        column: Column.ColumnProps;
         delta: number;
     }
 
@@ -75,20 +82,12 @@ declare module 'primereact/datatable' {
         filters: FilterMeta;
     }
 
-    interface SelectionChangeParams {
-        originalEvent: React.SyntheticEvent;
-        value: any;
-        [key: string]: any;
-    }
-
-    interface RowEventParams {
-        originalEvent: React.SyntheticEvent;
-        data: any;
+    interface RowEventParams extends EventParams {
+        index: number;
     }
 
     interface RowClickEventParams extends Omit<RowEventParams, 'originalEvent'> {
         originalEvent: React.MouseEvent<HTMLElement>;
-        index: number;
     }
 
     interface CellClickEventParams {
@@ -101,11 +100,7 @@ declare module 'primereact/datatable' {
         selected: boolean;
     }
 
-    interface RowEditParams extends RowEventParams {
-        index: number;
-    }
-
-    interface RowEditSaveParams extends RowEditParams {
+    interface RowEditSaveParams extends RowEventParams {
         valid: boolean;
     }
 
@@ -136,7 +131,7 @@ declare module 'primereact/datatable' {
         dropIndex: number;
     }
 
-    export interface DataTableProps {
+    interface DataTableProps {
         id?: string;
         value?: any[];
         header?: React.ReactNode;
@@ -149,10 +144,10 @@ declare module 'primereact/datatable' {
         paginatorPosition?: PaginatorPositionType;
         alwaysShowPaginator?: boolean;
         paginatorClassName?: string;
-        paginatorTemplate?: PaginatorTemplate;
+        paginatorTemplate?: Paginator.PaginatorTemplate;
         paginatorLeft?: React.ReactNode;
         paginatorRight?: React.ReactNode;
-        paginatorDropdownAppendTo?: AppendToType;
+        paginatorDropdownAppendTo?: HTMLElement | string;
         pageLinkSize?: number;
         rowsPerPageOptions?: number[];
         currentPageReportTemplate?: string;
@@ -209,10 +204,10 @@ declare module 'primereact/datatable' {
         editingRows?: any[] | EditingRows;
         expandableRowGroups?: boolean;
         rowHover?: boolean;
-        showSelectionElement?(data: any): boolean | undefined | null;
-        showRowReorderElement?(data: any): boolean | undefined | null;
-        onSelectionChange?(e: SelectionChangeParams): void;
-        onContextMenuSelectionChange?(e: RowEventParams): void;
+        showSelectionElement?(e: ShowElementParams): boolean | undefined | null;
+        showReorderElement?(e: ShowElementParams): boolean | undefined | null;
+        onSelectionChange?(e: EventParams): void;
+        onContextMenuSelectionChange?(e: EventParams): void;
         rowExpansionTemplate?(data: any): React.ReactNode;
         onRowToggle?(e: RowToggleParams): void;
         rowClassName?(data: any): object;
@@ -227,32 +222,32 @@ declare module 'primereact/datatable' {
         onRowDoubleClick?(e: RowClickEventParams): void;
         onRowSelect?(e: SelectParams): void;
         onRowUnselect?(e: UnselectParams): void;
-        onRowExpand?(e: RowEventParams): void;
-        onRowCollapse?(e: RowEventParams): void;
+        onRowExpand?(e: EventParams): void;
+        onRowCollapse?(e: EventParams): void;
         onCellClick?(e: CellClickEventParams): void;
         onCellSelect?(e: SelectParams): void;
         onCellUnselect?(e: UnselectParams): void;
-        onContextMenu?(e: RowEventParams): void;
+        onContextMenu?(e: EventParams): void;
         onColReorder?(e: ColReorderParams): void;
         onRowReorder?(e: RowReorderParams): void;
         onValueChange?(value: any[]): void;
         rowEditorValidator?(data: any): boolean;
-        onRowEditInit?(e: RowEditParams): void;
+        onRowEditInit?(e: RowEventParams): void;
         onRowEditSave?(e: RowEditSaveParams): void;
-        onRowEditCancel?(e: RowEditParams): void;
-        onRowEditChange?(e: RowEditParams): void;
+        onRowEditCancel?(e: RowEventParams): void;
+        onRowEditChange?(e: RowEventParams): void;
         exportFunction?(e: ExportFunctionParams): any;
         customSaveState?(state: object): void;
         customRestoreState?(): object;
         onStateSave?(state: object): void;
         onStateRestore?(state: object): void;
     }
+}
 
-    export class DataTable extends React.Component<DataTableProps, any> {
-        public reset(): void;
-        public exportCSV(options: { selectionOnly: boolean }): void;
-        public filter<T>(value: T, field: string, mode: FilterMatchModeType): void;
-        public resetColumnOrder(): void;
-        public closeEditingCell(): void;
-    }
+export declare class DataTable extends React.Component<DataTable.DataTableProps, any> {
+    public reset(): void;
+    public exportCSV(options: { selectionOnly: boolean }): void;
+    public filter<T>(value: T, field: string, mode: DataTable.FilterMatchModeType): void;
+    public resetColumnOrder(): void;
+    public closeEditingCell(): void;
 }

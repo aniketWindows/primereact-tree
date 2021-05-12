@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/carousel' {
+declare namespace Carousel {
 
     type OrientationType = 'vertical' | 'horizontal';
 
@@ -14,7 +14,7 @@ declare module 'primereact/carousel' {
         page: number;
     }
 
-    export interface CarouselProps {
+    interface CarouselProps {
         id?: string;
         value?: any[];
         page?: number;
@@ -35,6 +35,6 @@ declare module 'primereact/carousel' {
         indicatorsContentClassName?: string;
         onPageChange?(e: PageChangeParams): void;
     }
-
-    export class Carousel extends React.Component<CarouselProps, any> { }
 }
+
+export declare class Carousel extends React.Component<Carousel.CarouselProps, any> { }

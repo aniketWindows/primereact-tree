@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/chips' {
+declare namespace Chips {
 
     interface AddParams {
         originalEvent: React.SyntheticEvent;
@@ -24,7 +24,7 @@ declare module 'primereact/chips' {
         target: ChangeTargetOptions;
     }
 
-    export interface ChipsProps {
+    interface ChipsProps {
         id?: string;
         inputRef?: React.Ref<HTMLInputElement>;
         name?: string;
@@ -46,6 +46,6 @@ declare module 'primereact/chips' {
         onFocus?(event: React.FormEvent<HTMLInputElement>): void;
         onBlur?(event: React.FormEvent<HTMLInputElement>): void;
     }
-
-    export class Chips extends React.Component<ChipsProps, any> { }
 }
+
+export declare class Chips extends React.Component<Chips.ChipsProps, any> { }

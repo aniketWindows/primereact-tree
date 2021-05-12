@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-declare module 'primereact/ripple' {
+declare namespace Ripple {
 
-    export interface RippleProps {
+    interface RippleProps {
     }
-
-    export class Ripple extends React.Component<RippleProps, any> { }
 }
+
+export declare class Ripple extends React.Component<Ripple.RippleProps, any> { }

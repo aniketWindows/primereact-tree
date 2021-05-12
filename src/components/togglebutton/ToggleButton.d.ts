@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/togglebutton' {
+declare namespace ToggleButton {
 
     type IconPositionType = 'left' | 'right';
 
@@ -19,7 +19,7 @@ declare module 'primereact/togglebutton' {
         target: ChangeTargetOptions;
     }
 
-    export interface ToggleButtonProps {
+    interface ToggleButtonProps {
         id?: string;
         onIcon?: string;
         offIcon?: string;
@@ -37,6 +37,6 @@ declare module 'primereact/togglebutton' {
         onFocus?(event: React.FormEvent<HTMLElement>): void;
         onBlur?(event: React.FormEvent<HTMLElement>): void;
     }
-
-    export class ToggleButton extends React.Component<ToggleButtonProps, any> { }
 }
+
+export declare class ToggleButton extends React.Component<ToggleButton.ToggleButtonProps, any> { }

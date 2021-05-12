@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { MenuItem } from '../menuitem/MenuItem';
 
-declare module 'primereact/tieredmenu' {
+declare namespace TieredMenu {
 
-    type AppendToType = 'self' | HTMLElement | undefined | null;
-
-    export interface TieredMenuProps {
+    interface TieredMenuProps {
         id?: string;
         model?: MenuItem[];
         popup?: boolean;
@@ -13,13 +11,13 @@ declare module 'primereact/tieredmenu' {
         className?: string;
         autoZIndex?: boolean;
         bazeZIndex?: number;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         transitionOptions?: object;
         onShow?(e: React.SyntheticEvent): void;
         onHide?(e: React.SyntheticEvent): void;
     }
+}
 
-    export class TieredMenu extends React.Component<TieredMenuProps, any> {
-        public toggle(event: React.SyntheticEvent): void;
-    }
+export declare class TieredMenu extends React.Component<TieredMenu.TieredMenuProps, any> {
+    public toggle(event: React.SyntheticEvent): void;
 }

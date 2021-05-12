@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-declare module 'primereact/toolbar' {
+declare namespace Toolbar {
 
     type TemplateType = React.ReactNode | ((props: ToolbarProps) => React.ReactNode);
 
-    export interface ToolbarProps {
+    interface ToolbarProps {
         id?: string;
         style?: object;
         className?: string;
         left?: TemplateType;
         right?: TemplateType;
     }
-
-    export class Toolbar extends React.Component<ToolbarProps, any> { }
 }
+
+export declare class Toolbar extends React.Component<Toolbar.ToolbarProps, any> { }

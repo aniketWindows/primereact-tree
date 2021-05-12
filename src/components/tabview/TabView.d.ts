@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/tabview' {
+declare namespace TabPanel {
 
     type HeaderTemplateType = React.ReactNode | ((options: HeaderTemplateOptions) => React.ReactNode);
 
@@ -18,7 +18,7 @@ declare module 'primereact/tabview' {
         ariaControls: string;
     }
 
-    export interface TabPanelProps {
+    interface TabPanelProps {
         header?: React.ReactNode;
         headerTemplate?: HeaderTemplateType;
         leftIcon?: string;
@@ -29,15 +29,18 @@ declare module 'primereact/tabview' {
         contentStyle?: object;
         contentClassName?: string;
     }
+}
 
-    export class TabPanel extends React.Component<TabPanelProps, any> { }
+export declare class TabPanel extends React.Component<TabPanel.TabPanelProps, any> { }
+
+declare namespace TabView {
 
     interface TabChangeParams {
         originalEvent: React.SyntheticEvent;
         index: number;
     }
 
-    export interface TabViewProps {
+    interface TabViewProps {
         id?: string;
         activeIndex?: number;
         style?: object;
@@ -45,7 +48,7 @@ declare module 'primereact/tabview' {
         renderActiveOnly?: boolean;
         onTabChange?(e: TabChangeParams): void;
     }
-
-    // tslint:disable-next-line:max-classes-per-file
-    export class TabView extends React.Component<TabViewProps, any> { }
 }
+
+// tslint:disable-next-line:max-classes-per-file
+export declare class TabView extends React.Component<TabView.TabViewProps, any> { }

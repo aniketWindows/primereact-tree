@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-declare module 'primereact/tag' {
+declare namespace Tag {
 
     type SeverityType = 'success' | 'info' | 'warn' | 'error' | (string & {});
 
-    export interface TagProps {
+    interface TagProps {
         value?: React.ReactNode;
         severity?: SeverityType;
         rounded?: boolean;
@@ -12,6 +12,6 @@ declare module 'primereact/tag' {
         style?: object;
         className?: string;
     }
-
-    export class Tag extends React.Component<TagProps, any> { }
 }
+
+export declare class Tag extends React.Component<Tag.TagProps, any> { }

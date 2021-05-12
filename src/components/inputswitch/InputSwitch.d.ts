@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/inputswitch' {
+declare namespace InputSwitch {
 
     interface ChangeTargetOptions {
         name: string;
@@ -17,7 +17,7 @@ declare module 'primereact/inputswitch' {
         target: ChangeTargetOptions;
     }
 
-    export interface InputSwitchProps {
+    interface InputSwitchProps {
         id?: string;
         inputRef?: React.Ref<HTMLInputElement>;
         style?: object;
@@ -33,6 +33,6 @@ declare module 'primereact/inputswitch' {
         onFocus?(event: React.FormEvent<HTMLInputElement>): void;
         onBlur?(event: React.FormEvent<HTMLInputElement>): void;
     }
-
-    export class InputSwitch extends React.Component<InputSwitchProps, any> { }
 }
+
+export declare class InputSwitch extends React.Component<InputSwitch.InputSwitchProps, any> { }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/avatar' {
+declare namespace Avatar {
 
     type SizeType = 'normal' | 'large' | 'xlarge';
 
@@ -8,7 +8,7 @@ declare module 'primereact/avatar' {
 
     type TemplateType = React.ReactNode | ((props: AvatarProps) => React.ReactNode);
 
-    export interface AvatarProps {
+    interface AvatarProps {
         label?: string;
         icon?: string;
         image?: string;
@@ -21,6 +21,6 @@ declare module 'primereact/avatar' {
         onImageError?(event: React.SyntheticEvent): void;
         onClick?(event: React.MouseEvent<HTMLElement>): void;
     }
-
-    export class Avatar extends React.Component<AvatarProps, any> { }
 }
+
+export declare class Avatar extends React.Component<Avatar.AvatarProps, any> { }

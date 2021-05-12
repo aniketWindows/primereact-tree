@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-declare module 'primereact/columngroup' {
+declare namespace ColumnGroup {
     // tslint:disable-next-line:no-empty-interface
-    export interface ColumnGroupProps {
+    interface ColumnGroupProps {
     }
-
-    export class ColumnGroup extends React.Component<ColumnGroupProps, any> { }
 }
+
+export declare class ColumnGroup extends React.Component<ColumnGroup.ColumnGroupProps, any> { }

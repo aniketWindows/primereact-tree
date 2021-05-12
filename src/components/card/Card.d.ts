@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-declare module 'primereact/card' {
+declare namespace Card {
 
     type TemplateTypes = React.ReactNode | ((props: CardProps) => React.ReactNode);
 
-    export interface CardProps {
+    interface CardProps {
         id?: string;
         header?: TemplateTypes;
         footer?: TemplateTypes;
@@ -13,6 +13,6 @@ declare module 'primereact/card' {
         style?: object;
         className?: string;
     }
-
-    export class Card extends React.Component<CardProps, any> { }
 }
+
+export declare class Card extends React.Component<Card.CardProps, any> { }

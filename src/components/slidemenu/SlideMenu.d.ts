@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { MenuItem } from '../menuitem/MenuItem';
 
-declare module 'primereact/slidemenu' {
+declare namespace SlideMenu {
 
-    type AppendToType = 'self' | HTMLElement | undefined | null;
-
-    export interface SlideMenuProps {
+    interface SlideMenuProps {
         id?: string;
         model?: MenuItem[];
         popup?: boolean;
@@ -18,15 +16,15 @@ declare module 'primereact/slidemenu' {
         viewportHeight?: number;
         autoZIndex?: boolean;
         baseZIndex?: number;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         transitionOptions?: object;
         onShow?(e: React.SyntheticEvent): void;
         onHide?(e: React.SyntheticEvent): void;
     }
+}
 
-    export class SlideMenu extends React.Component<SlideMenuProps, any> {
-        public show(event: React.SyntheticEvent): void;
-        public hide(event: React.SyntheticEvent): void;
-        public toggle(event: React.SyntheticEvent): void;
-    }
+export declare class SlideMenu extends React.Component<SlideMenu.SlideMenuProps, any> {
+    public show(event: React.SyntheticEvent): void;
+    public hide(event: React.SyntheticEvent): void;
+    public toggle(event: React.SyntheticEvent): void;
 }

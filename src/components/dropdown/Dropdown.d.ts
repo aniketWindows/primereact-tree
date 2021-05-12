@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/dropdown' {
+declare namespace Dropdown {
 
     type OptionGroupTemplateType = React.ReactNode | ((option: any, index: number) => React.ReactNode);
 
@@ -10,10 +10,6 @@ declare module 'primereact/dropdown' {
     type ItemTemplateType = React.ReactNode | ((option: any) => React.ReactNode);
 
     type EmptyFilterMessageType = React.ReactNode | ((props: DropdownProps) => React.ReactNode);
-
-    type OptionDisabledType = string | ((option: any) => boolean);
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
 
     interface ChangeTargetOptions {
         name: string;
@@ -29,7 +25,7 @@ declare module 'primereact/dropdown' {
         target: ChangeTargetOptions;
     }
 
-    export interface DropdownProps {
+    interface DropdownProps {
         id?: string;
         inputRef?: React.Ref<HTMLSelectElement>;
         name?: string;
@@ -37,7 +33,7 @@ declare module 'primereact/dropdown' {
         options?: any[];
         optionLabel?: string;
         optionValue?: string;
-        optionDisabled?: OptionDisabledType;
+        optionDisabled?: string;
         optionGroupLabel?: string;
         optionGroupChildren?: string;
         optionGroupTemplate?: OptionGroupTemplateType;
@@ -56,7 +52,7 @@ declare module 'primereact/dropdown' {
         placeholder?: string;
         required?: boolean;
         disabled?: boolean;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         tabIndex?: number;
         autoFocus?: boolean;
         filterInputAutoFocus?: boolean;
@@ -83,6 +79,6 @@ declare module 'primereact/dropdown' {
         onShow?(): void;
         onHide?(): void;
     }
-
-    export class Dropdown extends React.Component<DropdownProps, any> { }
 }
+
+export declare class Dropdown extends React.Component<Dropdown.DropdownProps, any> { }

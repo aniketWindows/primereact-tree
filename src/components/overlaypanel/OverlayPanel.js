@@ -1,421 +1,311 @@
-"use strict";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { classNames } from '../utils/ClassNames';
+import DomHandler from '../utils/DomHandler';
+import { CSSTransition } from '../transition/CSSTransition';
+import { Ripple } from '../ripple/Ripple';
+import UniqueComponentId from '../utils/UniqueComponentId';
+import ConnectedOverlayScrollHandler from '../utils/ConnectedOverlayScrollHandler';
+import OverlayEventBus from '../overlayeventbus/OverlayEventBus';
+import { Portal } from '../portal/Portal';
+import { ZIndexUtils } from '../utils/ZIndexUtils';
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+export class OverlayPanel extends Component {
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.OverlayPanel = void 0;
+    static defaultProps = {
+        id: null,
+        dismissable: true,
+        showCloseIcon: false,
+        style: null,
+        className: null,
+        appendTo: null,
+        breakpoints: null,
+        ariaCloseLabel: 'close',
+        transitionOptions: null,
+        onShow: null,
+        onHide: null
+    }
 
-var _react = _interopRequireWildcard(require("react"));
+    static propTypes = {
+        id: PropTypes.string,
+        dismissable: PropTypes.bool,
+        showCloseIcon: PropTypes.bool,
+        style: PropTypes.object,
+        className: PropTypes.string,
+        appendTo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+        breakpoints: PropTypes.object,
+        ariaCloseLabel: PropTypes.string,
+        transitionOptions: PropTypes.object,
+        onShow: PropTypes.func,
+        onHide: PropTypes.func
+    }
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+    constructor(props) {
+        super(props);
 
-var _ClassNames = require("../utils/ClassNames");
-
-var _DomHandler = _interopRequireDefault(require("../utils/DomHandler"));
-
-var _CSSTransition = require("../transition/CSSTransition");
-
-var _Ripple = require("../ripple/Ripple");
-
-var _UniqueComponentId = _interopRequireDefault(require("../utils/UniqueComponentId"));
-
-var _ConnectedOverlayScrollHandler = _interopRequireDefault(require("../utils/ConnectedOverlayScrollHandler"));
-
-var _OverlayEventBus = _interopRequireDefault(require("../overlayeventbus/OverlayEventBus"));
-
-var _Portal = require("../portal/Portal");
-
-var _ZIndexUtils = require("../utils/ZIndexUtils");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var OverlayPanel = /*#__PURE__*/function (_Component) {
-  _inherits(OverlayPanel, _Component);
-
-  var _super = _createSuper(OverlayPanel);
-
-  function OverlayPanel(props) {
-    var _this;
-
-    _classCallCheck(this, OverlayPanel);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      visible: false
-    };
-    _this.onCloseClick = _this.onCloseClick.bind(_assertThisInitialized(_this));
-    _this.onPanelClick = _this.onPanelClick.bind(_assertThisInitialized(_this));
-    _this.onEnter = _this.onEnter.bind(_assertThisInitialized(_this));
-    _this.onEntered = _this.onEntered.bind(_assertThisInitialized(_this));
-    _this.onExit = _this.onExit.bind(_assertThisInitialized(_this));
-    _this.onExited = _this.onExited.bind(_assertThisInitialized(_this));
-    _this.attributeSelector = (0, _UniqueComponentId.default)();
-    _this.overlayRef = /*#__PURE__*/_react.default.createRef();
-    return _this;
-  }
-
-  _createClass(OverlayPanel, [{
-    key: "bindDocumentClickListener",
-    value: function bindDocumentClickListener() {
-      var _this2 = this;
-
-      if (!this.documentClickListener && this.props.dismissable) {
-        this.documentClickListener = function (event) {
-          if (!_this2.isPanelClicked && _this2.isOutsideClicked(event.target)) {
-            _this2.hide();
-          }
-
-          _this2.isPanelClicked = false;
+        this.state = {
+            visible: false
         };
 
-        document.addEventListener('click', this.documentClickListener);
-      }
-    }
-  }, {
-    key: "unbindDocumentClickListener",
-    value: function unbindDocumentClickListener() {
-      if (this.documentClickListener) {
-        document.removeEventListener('click', this.documentClickListener);
-        this.documentClickListener = null;
-      }
-    }
-  }, {
-    key: "bindScrollListener",
-    value: function bindScrollListener() {
-      var _this3 = this;
+        this.onCloseClick = this.onCloseClick.bind(this);
+        this.onPanelClick = this.onPanelClick.bind(this);
+        this.onEnter = this.onEnter.bind(this);
+        this.onEntered = this.onEntered.bind(this);
+        this.onExit = this.onExit.bind(this);
+        this.onExited = this.onExited.bind(this);
 
-      if (!this.scrollHandler) {
-        this.scrollHandler = new _ConnectedOverlayScrollHandler.default(this.target, function () {
-          if (_this3.state.visible) {
-            _this3.hide();
-          }
-        });
-      }
+        this.attributeSelector = UniqueComponentId();
+        this.overlayRef = React.createRef();
+    }
 
-      this.scrollHandler.bindScrollListener();
-    }
-  }, {
-    key: "unbindScrollListener",
-    value: function unbindScrollListener() {
-      if (this.scrollHandler) {
-        this.scrollHandler.unbindScrollListener();
-      }
-    }
-  }, {
-    key: "bindResizeListener",
-    value: function bindResizeListener() {
-      var _this4 = this;
+    bindDocumentClickListener() {
+        if(!this.documentClickListener && this.props.dismissable) {
+            this.documentClickListener = (event) => {
+                if (!this.isPanelClicked && this.isOutsideClicked(event.target)) {
+                    this.hide();
+                }
 
-      if (!this.resizeListener) {
-        this.resizeListener = function () {
-          if (_this4.state.visible) {
-            _this4.hide();
-          }
-        };
+                this.isPanelClicked = false;
+            };
 
-        window.addEventListener('resize', this.resizeListener);
-      }
+            document.addEventListener('click', this.documentClickListener);
+        }
     }
-  }, {
-    key: "unbindResizeListener",
-    value: function unbindResizeListener() {
-      if (this.resizeListener) {
-        window.removeEventListener('resize', this.resizeListener);
-        this.resizeListener = null;
-      }
-    }
-  }, {
-    key: "isOutsideClicked",
-    value: function isOutsideClicked(target) {
-      return this.overlayRef && this.overlayRef.current && !(this.overlayRef.current.isSameNode(target) || this.overlayRef.current.contains(target));
-    }
-  }, {
-    key: "hasTargetChanged",
-    value: function hasTargetChanged(event, target) {
-      return this.target != null && this.target !== (target || event.currentTarget || event.target);
-    }
-  }, {
-    key: "onCloseClick",
-    value: function onCloseClick(event) {
-      this.hide();
-      event.preventDefault();
-    }
-  }, {
-    key: "onPanelClick",
-    value: function onPanelClick(event) {
-      this.isPanelClicked = true;
 
-      _OverlayEventBus.default.emit('overlay-click', {
-        originalEvent: event,
-        target: this.target
-      });
+    unbindDocumentClickListener() {
+        if(this.documentClickListener) {
+            document.removeEventListener('click', this.documentClickListener);
+            this.documentClickListener = null;
+        }
     }
-  }, {
-    key: "toggle",
-    value: function toggle(event, target) {
-      var _this5 = this;
 
-      if (this.state.visible) {
+    bindScrollListener() {
+        if (!this.scrollHandler) {
+            this.scrollHandler = new ConnectedOverlayScrollHandler(this.target, () => {
+                if (this.state.visible) {
+                    this.hide();
+                }
+            });
+        }
+
+        this.scrollHandler.bindScrollListener();
+    }
+
+    unbindScrollListener() {
+        if (this.scrollHandler) {
+            this.scrollHandler.unbindScrollListener();
+        }
+    }
+
+    bindResizeListener() {
+        if (!this.resizeListener) {
+            this.resizeListener = () => {
+                if (this.state.visible) {
+                    this.hide();
+                }
+            };
+            window.addEventListener('resize', this.resizeListener);
+        }
+    }
+
+    unbindResizeListener() {
+        if (this.resizeListener) {
+            window.removeEventListener('resize', this.resizeListener);
+            this.resizeListener = null;
+        }
+    }
+
+    isOutsideClicked(target) {
+        return this.overlayRef && this.overlayRef.current && !(this.overlayRef.current.isSameNode(target) || this.overlayRef.current.contains(target));
+    }
+
+    hasTargetChanged(event, target) {
+        return this.target != null && this.target !== (target||event.currentTarget||event.target);
+    }
+
+    onCloseClick(event) {
         this.hide();
 
-        if (this.hasTargetChanged(event, target)) {
-          this.target = target || event.currentTarget || event.target;
-          setTimeout(function () {
-            _this5.show(event, _this5.target);
-          }, 200);
-        }
-      } else {
-        this.show(event, target);
-      }
+        event.preventDefault();
     }
-  }, {
-    key: "show",
-    value: function show(event, target) {
-      var _this6 = this;
 
-      this.target = target || event.currentTarget || event.target;
+    onPanelClick(event) {
+        this.isPanelClicked = true;
 
-      if (this.state.visible) {
-        this.align();
-      } else {
-        this.setState({
-          visible: true
-        }, function () {
-          _this6.overlayEventListener = function (e) {
-            if (!_this6.isOutsideClicked(e.target)) {
-              _this6.isPanelClicked = true;
-            }
-          };
-
-          _OverlayEventBus.default.on('overlay-click', _this6.overlayEventListener);
+        OverlayEventBus.emit('overlay-click', {
+            originalEvent: event,
+            target: this.target
         });
-      }
     }
-  }, {
-    key: "hide",
-    value: function hide() {
-      var _this7 = this;
 
-      this.setState({
-        visible: false
-      }, function () {
-        _OverlayEventBus.default.off('overlay-click', _this7.overlayEventListener);
+    toggle(event, target) {
+        if (this.state.visible) {
+            this.hide();
 
-        _this7.overlayEventListener = null;
-      });
+            if (this.hasTargetChanged(event, target)) {
+                this.target = target||event.currentTarget||event.target;
+
+                setTimeout(() => {
+                    this.show(event, this.target);
+                }, 200);
+            }
+        }
+        else {
+            this.show(event, target);
+        }
     }
-  }, {
-    key: "onEnter",
-    value: function onEnter() {
-      _ZIndexUtils.ZIndexUtils.set('overlay', this.overlayRef.current);
 
-      this.overlayRef.current.setAttribute(this.attributeSelector, '');
-      this.align();
+    show(event, target) {
+        this.target = target||event.currentTarget||event.target;
+
+        if (this.state.visible) {
+            this.align();
+        }
+        else {
+            this.setState({ visible: true }, () => {
+                this.overlayEventListener = (e) => {
+                    if (!this.isOutsideClicked(e.target)) {
+                        this.isPanelClicked = true;
+                    }
+                };
+
+                OverlayEventBus.on('overlay-click', this.overlayEventListener);
+            });
+        }
     }
-  }, {
-    key: "onEntered",
-    value: function onEntered() {
-      this.bindDocumentClickListener();
-      this.bindScrollListener();
-      this.bindResizeListener();
-      this.props.onShow && this.props.onShow();
+
+    hide() {
+        this.setState({ visible: false }, () => {
+            OverlayEventBus.off('overlay-click', this.overlayEventListener);
+            this.overlayEventListener = null;
+        });
     }
-  }, {
-    key: "onExit",
-    value: function onExit() {
-      this.unbindDocumentClickListener();
-      this.unbindScrollListener();
-      this.unbindResizeListener();
+
+    onEnter() {
+        ZIndexUtils.set('overlay', this.overlayRef.current);
+        this.overlayRef.current.setAttribute(this.attributeSelector, '');
+        this.align();
     }
-  }, {
-    key: "onExited",
-    value: function onExited() {
-      _ZIndexUtils.ZIndexUtils.clear(this.overlayRef.current);
 
-      this.props.onHide && this.props.onHide();
+    onEntered() {
+        this.bindDocumentClickListener();
+        this.bindScrollListener();
+        this.bindResizeListener();
+
+        this.props.onShow && this.props.onShow();
     }
-  }, {
-    key: "align",
-    value: function align() {
-      if (this.target) {
-        _DomHandler.default.absolutePosition(this.overlayRef.current, this.target);
 
-        var containerOffset = _DomHandler.default.getOffset(this.overlayRef.current);
+    onExit() {
+        this.unbindDocumentClickListener();
+        this.unbindScrollListener();
+        this.unbindResizeListener();
+    }
 
-        var targetOffset = _DomHandler.default.getOffset(this.target);
+    onExited() {
+        ZIndexUtils.clear(this.overlayRef.current);
 
-        var arrowLeft = 0;
+        this.props.onHide && this.props.onHide();
+    }
 
-        if (containerOffset.left < targetOffset.left) {
-          arrowLeft = targetOffset.left - containerOffset.left;
+    align() {
+        if (this.target) {
+            DomHandler.absolutePosition(this.overlayRef.current, this.target);
+
+            const containerOffset = DomHandler.getOffset(this.overlayRef.current);
+            const targetOffset = DomHandler.getOffset(this.target);
+            let arrowLeft = 0;
+
+            if (containerOffset.left < targetOffset.left) {
+                arrowLeft = targetOffset.left - containerOffset.left;
+            }
+            this.overlayRef.current.style.setProperty('--overlayArrowLeft', `${arrowLeft}px`);
+
+            if (containerOffset.top < targetOffset.top) {
+                DomHandler.addClass(this.overlayRef.current, 'p-overlaypanel-flipped');
+            }
+        }
+    }
+
+    createStyle() {
+        if (!this.styleElement) {
+            this.styleElement = document.createElement('style');
+            document.head.appendChild(this.styleElement);
+
+            let innerHTML = '';
+            for (let breakpoint in this.props.breakpoints) {
+                innerHTML += `
+                    @media screen and (max-width: ${breakpoint}) {
+                        .p-overlaypanel[${this.attributeSelector}] {
+                            width: ${this.props.breakpoints[breakpoint]} !important;
+                        }
+                    }
+                `
+            }
+
+            this.styleElement.innerHTML = innerHTML;
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.breakpoints) {
+            this.createStyle();
+        }
+    }
+
+    componentWillUnmount() {
+        this.unbindDocumentClickListener();
+        this.unbindResizeListener();
+        if (this.scrollHandler) {
+            this.scrollHandler.destroy();
+            this.scrollHandler = null;
         }
 
-        this.overlayRef.current.style.setProperty('--overlayArrowLeft', "".concat(arrowLeft, "px"));
-
-        if (containerOffset.top < targetOffset.top) {
-          _DomHandler.default.addClass(this.overlayRef.current, 'p-overlaypanel-flipped');
-        }
-      }
-    }
-  }, {
-    key: "createStyle",
-    value: function createStyle() {
-      if (!this.styleElement) {
-        this.styleElement = document.createElement('style');
-        document.head.appendChild(this.styleElement);
-        var innerHTML = '';
-
-        for (var breakpoint in this.props.breakpoints) {
-          innerHTML += "\n                    @media screen and (max-width: ".concat(breakpoint, ") {\n                        .p-overlaypanel[").concat(this.attributeSelector, "] {\n                            width: ").concat(this.props.breakpoints[breakpoint], " !important;\n                        }\n                    }\n                ");
+        if (this.styleElement) {
+            document.head.removeChild(this.styleElement);
+            this.styleElement = null;
         }
 
-        this.styleElement.innerHTML = innerHTML;
-      }
+        if (this.overlayEventListener) {
+            OverlayEventBus.off('overlay-click', this.overlayEventListener);
+            this.overlayEventListener = null;
+        }
+
+        ZIndexUtils.clear(this.overlayRef.current);
     }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      if (this.props.breakpoints) {
-        this.createStyle();
-      }
+
+    renderCloseIcon() {
+        if(this.props.showCloseIcon) {
+            return (
+                <button type="button" className="p-overlaypanel-close p-link" onClick={this.onCloseClick} aria-label={this.props.ariaCloseLabel}>
+                    <span className="p-overlaypanel-close-icon pi pi-times"></span>
+                    <Ripple />
+                </button>
+            );
+        }
+
+        return null;
     }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.unbindDocumentClickListener();
-      this.unbindResizeListener();
 
-      if (this.scrollHandler) {
-        this.scrollHandler.destroy();
-        this.scrollHandler = null;
-      }
+    renderElement() {
+        let className = classNames('p-overlaypanel p-component', this.props.className);
+        let closeIcon = this.renderCloseIcon();
 
-      if (this.styleElement) {
-        document.head.removeChild(this.styleElement);
-        this.styleElement = null;
-      }
-
-      if (this.overlayEventListener) {
-        _OverlayEventBus.default.off('overlay-click', this.overlayEventListener);
-
-        this.overlayEventListener = null;
-      }
-
-      _ZIndexUtils.ZIndexUtils.clear(this.overlayRef.current);
+        return (
+            <CSSTransition nodeRef={this.overlayRef} classNames="p-overlaypanel" in={this.state.visible} timeout={{ enter: 120, exit: 100 }} options={this.props.transitionOptions}
+                unmountOnExit onEnter={this.onEnter} onEntered={this.onEntered} onExit={this.onExit} onExited={this.onExited}>
+                <div ref={this.overlayRef} id={this.props.id} className={className} style={this.props.style} onClick={this.onPanelClick}>
+                    <div className="p-overlaypanel-content">
+                        {this.props.children}
+                    </div>
+                    {closeIcon}
+                </div>
+            </CSSTransition>
+        );
     }
-  }, {
-    key: "renderCloseIcon",
-    value: function renderCloseIcon() {
-      if (this.props.showCloseIcon) {
-        return /*#__PURE__*/_react.default.createElement("button", {
-          type: "button",
-          className: "p-overlaypanel-close p-link",
-          onClick: this.onCloseClick,
-          "aria-label": this.props.ariaCloseLabel
-        }, /*#__PURE__*/_react.default.createElement("span", {
-          className: "p-overlaypanel-close-icon pi pi-times"
-        }), /*#__PURE__*/_react.default.createElement(_Ripple.Ripple, null));
-      }
 
-      return null;
+    render() {
+        let element = this.renderElement();
+
+        return <Portal element={element} appendTo={this.props.appendTo} />;
     }
-  }, {
-    key: "renderElement",
-    value: function renderElement() {
-      var className = (0, _ClassNames.classNames)('p-overlaypanel p-component', this.props.className);
-      var closeIcon = this.renderCloseIcon();
-      return /*#__PURE__*/_react.default.createElement(_CSSTransition.CSSTransition, {
-        nodeRef: this.overlayRef,
-        classNames: "p-overlaypanel",
-        in: this.state.visible,
-        timeout: {
-          enter: 120,
-          exit: 100
-        },
-        options: this.props.transitionOptions,
-        unmountOnExit: true,
-        onEnter: this.onEnter,
-        onEntered: this.onEntered,
-        onExit: this.onExit,
-        onExited: this.onExited
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        ref: this.overlayRef,
-        id: this.props.id,
-        className: className,
-        style: this.props.style,
-        onClick: this.onPanelClick
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "p-overlaypanel-content"
-      }, this.props.children), closeIcon));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var element = this.renderElement();
-      return /*#__PURE__*/_react.default.createElement(_Portal.Portal, {
-        element: element,
-        appendTo: this.props.appendTo
-      });
-    }
-  }]);
-
-  return OverlayPanel;
-}(_react.Component);
-
-exports.OverlayPanel = OverlayPanel;
-
-_defineProperty(OverlayPanel, "defaultProps", {
-  id: null,
-  dismissable: true,
-  showCloseIcon: false,
-  style: null,
-  className: null,
-  appendTo: null,
-  breakpoints: null,
-  ariaCloseLabel: 'close',
-  transitionOptions: null,
-  onShow: null,
-  onHide: null
-});
-
-_defineProperty(OverlayPanel, "propTypes", {
-  id: _propTypes.default.string,
-  dismissable: _propTypes.default.bool,
-  showCloseIcon: _propTypes.default.bool,
-  style: _propTypes.default.object,
-  className: _propTypes.default.string,
-  appendTo: _propTypes.default.oneOfType([_propTypes.default.object, _propTypes.default.string]),
-  breakpoints: _propTypes.default.object,
-  ariaCloseLabel: _propTypes.default.string,
-  transitionOptions: _propTypes.default.object,
-  onShow: _propTypes.default.func,
-  onHide: _propTypes.default.func
-});
+}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/timeline' {
+declare namespace Timeline {
 
     type AlignType = 'left' | 'right' | 'alternate';
 
@@ -8,7 +8,7 @@ declare module 'primereact/timeline' {
 
     type TemplateType = React.ReactNode | ((item: any, index: number) => React.ReactNode);
 
-    export interface TimelineProps {
+    interface TimelineProps {
         id?: string;
         value?: any[];
         align?: AlignType;
@@ -20,6 +20,6 @@ declare module 'primereact/timeline' {
         marker?: TemplateType;
         content?: TemplateType;
     }
-
-    export class Timeline extends React.Component<TimelineProps, any> { }
 }
+
+export declare class Timeline extends React.Component<Timeline.TimelineProps, any> { }

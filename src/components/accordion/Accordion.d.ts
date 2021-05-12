@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-declare module 'primereact/accordion' {
+declare namespace AccordionTab {
 
     type HeaderTemplateType = React.ReactNode | ((props: AccordionTabProps) => React.ReactNode);
 
-    export interface AccordionTabProps {
+    interface AccordionTabProps {
         header?: React.ReactNode;
         disabled?: boolean;
         headerStyle?: object;
@@ -13,8 +13,11 @@ declare module 'primereact/accordion' {
         contentStyle?: object;
         contentClassName?: string;
     }
+}
 
-    export class AccordionTab extends React.Component<AccordionTabProps, any> { }
+export declare class AccordionTab extends React.Component<AccordionTab.AccordionTabProps, any> { }
+
+declare namespace Accordion {
 
     type ActiveIndexType = number | number[] | undefined | null;
 
@@ -23,7 +26,7 @@ declare module 'primereact/accordion' {
         index: number;
     }
 
-    export interface AccordionProps {
+    interface AccordionProps {
         id?: string;
         activeIndex?: ActiveIndexType;
         className?: string;
@@ -36,7 +39,8 @@ declare module 'primereact/accordion' {
         onTabClose?(e: EventParams): void;
         onTabChange?(e: EventParams): void;
     }
-
-    // tslint:disable-next-line:max-classes-per-file
-    export class Accordion extends React.Component<AccordionProps, any> { }
 }
+
+// tslint:disable-next-line:max-classes-per-file
+export declare class Accordion extends React.Component<Accordion.AccordionProps, any> { }
+

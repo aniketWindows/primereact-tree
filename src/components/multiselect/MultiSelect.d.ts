@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
 
-declare module 'primereact/multiselect' {
+declare namespace MultiSelect {
 
     type OptionGroupTemplateType = React.ReactNode | ((option: any, index: number) => React.ReactNode);
 
@@ -34,10 +34,6 @@ declare module 'primereact/multiselect' {
 
     type PanelFooterTemplateType = React.ReactNode | ((props: MultiSelectProps, hide: () => void) => React.ReactNode);
 
-    type OptionDisabledType = string | ((option: any) => boolean);
-
-    type AppendToType = 'self' | HTMLElement | undefined | null;
-
     interface ChangeTargetOptions {
         name: string;
         id: string;
@@ -52,7 +48,7 @@ declare module 'primereact/multiselect' {
         target: ChangeTargetOptions;
     }
 
-    export interface MultiSelectProps {
+    interface MultiSelectProps {
         id?: string;
         inputRef?: React.Ref<HTMLSelectElement>;
         name?: string;
@@ -60,7 +56,7 @@ declare module 'primereact/multiselect' {
         options?: any[];
         optionLabel?: string;
         optionValue?: string;
-        optionDisabled?: OptionDisabledType;
+        optionDisabled?: boolean;
         optionGroupLabel?: string;
         optionGroupChildren?: string;
         optionGroupTemplate?: OptionGroupTemplateType;
@@ -85,7 +81,7 @@ declare module 'primereact/multiselect' {
         dataKey?: string;
         inputId?: string;
         required?: boolean;
-        appendTo?: AppendToType;
+        appendTo?: HTMLElement | string;
         tooltip?: string;
         tooltipOptions?: TooltipOptions;
         maxSelectedLabels?: number;
@@ -103,6 +99,6 @@ declare module 'primereact/multiselect' {
         onShow?(): void;
         onHide?(): void;
     }
-
-    export class MultiSelect extends React.Component<MultiSelectProps, any> { }
 }
+
+export declare class MultiSelect extends React.Component<MultiSelect.MultiSelectProps, any> { }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-declare module 'primereact/organizationchart' {
+declare namespace OrganizationChart {
 
     type SelectionModeType = 'single' | 'multiple';
 
@@ -23,7 +23,7 @@ declare module 'primereact/organizationchart' {
         label?: string;
     }
 
-    export interface OrganizationChartProps {
+    interface OrganizationChartProps {
         id?: string;
         value?: OrganizationChartNodeData[];
         style?: object;
@@ -35,6 +35,6 @@ declare module 'primereact/organizationchart' {
         onNodeSelect?(e: NodeSelectParams): void;
         onNodeUnselect?(e: NodeUnselectParams): void;
     }
-
-    export class OrganizationChart extends React.Component<OrganizationChartProps, any> { }
 }
+
+export declare class OrganizationChart extends React.Component<OrganizationChart.OrganizationChartProps, any> { }

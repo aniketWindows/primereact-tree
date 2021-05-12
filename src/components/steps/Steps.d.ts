@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MenuItem } from '../menuitem/MenuItem';
 
-declare module 'primereact/steps' {
+declare namespace Steps {
 
     interface SelectParams {
         originalEvent: React.SyntheticEvent;
@@ -9,7 +9,7 @@ declare module 'primereact/steps' {
         index: number;
     }
 
-    export interface StepsProps {
+    interface StepsProps {
         id?: string;
         model: MenuItem[];
         activeIndex?: number;
@@ -18,6 +18,6 @@ declare module 'primereact/steps' {
         className?: string;
         onSelect?(e: SelectParams): void;
     }
-
-    export class Steps extends React.Component<StepsProps, any> { }
 }
+
+export declare class Steps extends React.Component<Steps.StepsProps, any> { }
